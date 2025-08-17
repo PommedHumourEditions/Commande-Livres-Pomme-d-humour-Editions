@@ -52,6 +52,50 @@
         padding: 40px;
     }
 
+    .customer-info {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 30px;
+    }
+
+    .customer-info h3 {
+        margin-bottom: 20px;
+        color: #2c3e50;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+        height: 100px;
+    }
+
     .currency-selector {
         background: #f8f9fa;
         padding: 20px;
@@ -115,9 +159,51 @@
         transform: translateY(-2px);
     }
 
+    .book-content {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .book-cover {
+        flex-shrink: 0;
+        width: 120px;
+        height: 160px;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 2px solid #bdc3c7;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        background: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .book-cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .book-cover-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        color: #666;
+        text-align: center;
+        background: #e9ecef;
+    }
+
+    .book-info {
+        flex: 1;
+    }
+
     .book-header {
         display: flex;
-        justify-content: between;
+        justify-content: space-between;
         align-items: center;
         margin-bottom: 15px;
     }
@@ -189,50 +275,6 @@
         font-weight: 700;
     }
 
-    .customer-info {
-        background: #f8f9fa;
-        padding: 25px;
-        border-radius: 15px;
-        margin-bottom: 30px;
-    }
-
-    .customer-info h3 {
-        margin-bottom: 20px;
-        color: #2c3e50;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 600;
-        color: #2c3e50;
-    }
-
-    .form-group input,
-    .form-group textarea {
-        width: 100%;
-        padding: 12px;
-        border: 2px solid #e9ecef;
-        border-radius: 8px;
-        font-size: 1em;
-        transition: border-color 0.3s ease;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-        outline: none;
-        border-color: #3498db;
-    }
-
-    .form-group textarea {
-        resize: vertical;
-        height: 100px;
-    }
-
     .radio-group {
         display: flex;
         flex-direction: column;
@@ -292,13 +334,6 @@
         font-weight: 600;
     }
 
-    @media (max-width: 768px) {
-        .radio-option {
-            padding: 10px;
-            font-size: 0.9em;
-        }
-    }
-
     .submit-btn {
         width: 100%;
         padding: 18px;
@@ -328,6 +363,16 @@
             flex-direction: column;
         }
         
+        .book-content {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .book-cover {
+            align-self: center;
+            margin-bottom: 15px;
+        }
+        
         .book-header {
             flex-direction: column;
             align-items: flex-start;
@@ -336,6 +381,11 @@
         .book-price {
             margin-left: 0;
             margin-top: 10px;
+        }
+
+        .radio-option {
+            padding: 10px;
+            font-size: 0.9em;
         }
     }
 </style>
@@ -351,6 +401,24 @@
 
 ```
     <form class="form-content" id="bookOrderForm" action="https://formspree.io/f/mrbldvrl" method="POST">
+        
+        <!-- Vos informations (maintenant en premier) -->
+        <div class="customer-info">
+            <h3>👤 Vos informations</h3>
+            <div class="form-group">
+                <label for="customerName">Nom et Prénom *</label>
+                <input type="text" id="customerName" name="nom_prenom" required>
+            </div>
+            <div class="form-group">
+                <label for="customerEmail">Email *</label>
+                <input type="email" id="customerEmail" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="customerPhone">Téléphone</label>
+                <input type="tel" id="customerPhone" name="telephone">
+            </div>
+        </div>
+
         <!-- Sélection de devise -->
         <div class="currency-selector">
             <h3>💱 Devise de commande</h3>
@@ -366,42 +434,63 @@
             </div>
         </div>
 
-        <!-- Section des livres -->
+        <!-- Section des livres avec images -->
         <div class="books-section">
             <div class="book-item">
-                <div class="book-header">
-                    <div class="book-title">MAIMBIYO</div>
-                    <div class="book-price" id="price1">13 500 KMF</div>
+                <div class="book-content">
+                    <div class="book-cover">
+                        <img src="https://drive.google.com/uc?export=view&id=15ZMpzUPyqJKGt7I7SiT4e7zGRZZYuoYH" alt="Couverture Maimbiyo" onerror="this.parentNode.innerHTML='<div class=book-cover-placeholder><div style=text-align:center;padding:10px;><div style=font-weight:bold;font-size:12px;color:#2c3e50;margin-bottom:5px;>MAIMBIYO</div><div style=font-size:8px;color:#666;>Comptines de Koko</div><div style=font-size:8px;color:#666;>et de Carda\'môme</div></div></div>'">
+                    </div>
+                    <div class="book-info">
+                        <div class="book-header">
+                            <div class="book-title">MAIMBIYO</div>
+                            <div class="book-price" id="price1">13 500 KMF</div>
+                        </div>
+                        <div class="quantity-section">
+                            <label for="qty1">Quantité :</label>
+                            <input type="number" id="qty1" name="quantite_maimbiyo" class="quantity-input" min="0" max="99" value="0">
+                        </div>
+                        <div class="subtotal" id="subtotal1">Sous-total : 0 KMF</div>
+                    </div>
                 </div>
-                <div class="quantity-section">
-                    <label for="qty1">Quantité :</label>
-                    <input type="number" id="qty1" name="quantite_maimbiyo" class="quantity-input" min="0" max="99" value="0">
-                </div>
-                <div class="subtotal" id="subtotal1">Sous-total : 0 KMF</div>
             </div>
 
             <div class="book-item">
-                <div class="book-header">
-                    <div class="book-title">IDI MBARAKA</div>
-                    <div class="book-price" id="price2">6 000 KMF</div>
+                <div class="book-content">
+                    <div class="book-cover">
+                        <img src="https://drive.google.com/uc?export=view&id=1h2ostqsFnZAMMWSDrZpZIKYLS86YklGH" alt="Couverture Idi Mbaraka" onerror="this.parentNode.innerHTML='<div class=book-cover-placeholder><div style=text-align:center;padding:10px;><div style=font-weight:bold;font-size:11px;color:#2c3e50;margin-bottom:5px;>IDI MBARAKA!</div><div style=font-size:8px;color:#666;margin-top:15px;>La Ide de Mwezi</div><div style=font-size:8px;color:#666;>et Nyora</div></div></div>'">
+                    </div>
+                    <div class="book-info">
+                        <div class="book-header">
+                            <div class="book-title">IDI MBARAKA</div>
+                            <div class="book-price" id="price2">6 000 KMF</div>
+                        </div>
+                        <div class="quantity-section">
+                            <label for="qty2">Quantité :</label>
+                            <input type="number" id="qty2" name="quantite_idi_mbaraka" class="quantity-input" min="0" max="99" value="0">
+                        </div>
+                        <div class="subtotal" id="subtotal2">Sous-total : 0 KMF</div>
+                    </div>
                 </div>
-                <div class="quantity-section">
-                    <label for="qty2">Quantité :</label>
-                    <input type="number" id="qty2" name="quantite_idi_mbaraka" class="quantity-input" min="0" max="99" value="0">
-                </div>
-                <div class="subtotal" id="subtotal2">Sous-total : 0 KMF</div>
             </div>
 
             <div class="book-item">
-                <div class="book-header">
-                    <div class="book-title">DJIMBO NA COMPTINES</div>
-                    <div class="book-price" id="price3">11 000 KMF</div>
+                <div class="book-content">
+                    <div class="book-cover">
+                        <img src="https://drive.google.com/uc?export=view&id=1ubGwuC8dyFPTF0wIn2kQ3Rac_ofRrtlT" alt="Couverture Djimbo na Comptines" onerror="this.parentNode.innerHTML='<div class=book-cover-placeholder><div style=text-align:center;padding:8px;><div style=font-size:6px;color:#666;margin-bottom:5px;>DE 0 À 12&4 MOIS</div><div style=font-weight:bold;font-size:10px;color:#2c3e50;margin-bottom:3px;>DJIMBO NA</div><div style=font-weight:bold;font-size:10px;color:#2c3e50;margin-bottom:10px;>COMPTINES</div><div style=font-size:7px;color:#666;>Na ri heze ri</div><div style=font-size:7px;color:#666;>fundishiye ye lugha</div></div></div>'">
+                    </div>
+                    <div class="book-info">
+                        <div class="book-header">
+                            <div class="book-title">DJIMBO NA COMPTINES</div>
+                            <div class="book-price" id="price3">11 000 KMF</div>
+                        </div>
+                        <div class="quantity-section">
+                            <label for="qty3">Quantité :</label>
+                            <input type="number" id="qty3" name="quantite_djimbo" class="quantity-input" min="0" max="99" value="0">
+                        </div>
+                        <div class="subtotal" id="subtotal3">Sous-total : 0 KMF</div>
+                    </div>
                 </div>
-                <div class="quantity-section">
-                    <label for="qty3">Quantité :</label>
-                    <input type="number" id="qty3" name="quantite_djimbo" class="quantity-input" min="0" max="99" value="0">
-                </div>
-                <div class="subtotal" id="subtotal3">Sous-total : 0 KMF</div>
             </div>
         </div>
 
@@ -409,27 +498,6 @@
         <div class="total-section">
             <h3>💰 Total de la commande</h3>
             <div class="total-amount" id="totalAmount">0 KMF</div>
-        </div>
-
-        <!-- Informations client -->
-        <div class="customer-info">
-            <h3>👤 Vos informations</h3>
-            <div class="form-group">
-                <label for="customerName">Nom et Prénom *</label>
-                <input type="text" id="customerName" name="nom_prenom" required>
-            </div>
-            <div class="form-group">
-                <label for="customerEmail">Email *</label>
-                <input type="email" id="customerEmail" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="customerPhone">Téléphone</label>
-                <input type="tel" id="customerPhone" name="telephone">
-            </div>
-            <div class="form-group" id="addressField" style="display: none;">
-                <label for="customerAddress">Adresse de livraison *</label>
-                <textarea id="customerAddress" name="adresse" placeholder="Adresse complète pour la livraison..."></textarea>
-            </div>
         </div>
 
         <!-- Questions supplémentaires -->
@@ -455,9 +523,15 @@
                     <label class="radio-option">
                         <input type="radio" name="delivery" value="relais" required>
                         <span class="radio-custom"></span>
-                        📍 Récupérer dans un point relais
+                        📍 Récupérer dans un point relais (Paris 20ème)
                     </label>
                 </div>
+            </div>
+            
+            <!-- Champ adresse qui s'affiche uniquement pour l'envoi postal -->
+            <div class="form-group" id="addressField" style="display: none; margin-top: 20px;">
+                <label for="customerAddress">Adresse de livraison complète *</label>
+                <textarea id="customerAddress" name="adresse" placeholder="Veuillez indiquer votre adresse complète pour la livraison postal (rue, ville, code postal, pays...)"></textarea>
             </div>
         </div>
 
@@ -633,6 +707,35 @@
         }
     }
 
+    // Gestion du champ adresse selon le mode de livraison
+    function toggleAddressField() {
+        const postalDelivery = document.querySelector('input[name="delivery"][value="postal"]');
+        const addressField = document.getElementById('addressField');
+        const addressTextarea = document.getElementById('customerAddress');
+        
+        if (postalDelivery && postalDelivery.checked) {
+            addressField.style.display = 'block';
+            addressTextarea.required = true;
+        } else {
+            addressField.style.display = 'none';
+            addressTextarea.required = false;
+            addressTextarea.value = ''; // Vider le champ si pas nécessaire
+        }
+    }
+
+    // Gestion du champ "Autre" pour la découverte
+    function toggleAutreField() {
+        const autreRadio = document.querySelector('input[name="discovery"][value="autre"]');
+        const autreField = document.getElementById('autreField');
+        
+        if (autreRadio && autreRadio.checked) {
+            autreField.style.display = 'block';
+        } else {
+            autreField.style.display = 'none';
+            document.getElementById('autreDetail').value = '';
+        }
+    }
+
     // Gestion de la soumission du formulaire
     function handleSubmit(e) {
         e.preventDefault();
@@ -691,35 +794,6 @@
     // Message de succès personnalisé
     function showSuccessMessage(customerName, total, currency) {
         alert(`✅ Merci ${customerName} !\n\nVotre commande de ${formatPrice(total, currency)} a été envoyée avec succès.\n\nNous vous recontacterons rapidement pour confirmer et organiser la livraison.\n\n📧 editions.pommedhumour@gmail.com`);
-    }
-
-    // Gestion du champ adresse selon le mode de livraison
-    function toggleAddressField() {
-        const postalDelivery = document.querySelector('input[name="delivery"][value="postal"]');
-        const addressField = document.getElementById('addressField');
-        const addressTextarea = document.getElementById('customerAddress');
-        
-        if (postalDelivery && postalDelivery.checked) {
-            addressField.style.display = 'block';
-            addressTextarea.required = true;
-        } else {
-            addressField.style.display = 'none';
-            addressTextarea.required = false;
-            addressTextarea.value = ''; // Vider le champ si pas nécessaire
-        }
-    }
-
-    // Gestion du champ "Autre" pour la découverte
-    function toggleAutreField() {
-        const autreRadio = document.querySelector('input[name="discovery"][value="autre"]');
-        const autreField = document.getElementById('autreField');
-        
-        if (autreRadio && autreRadio.checked) {
-            autreField.style.display = 'block';
-        } else {
-            autreField.style.display = 'none';
-            document.getElementById('autreDetail').value = '';
-        }
     }
 
     // Event listeners
